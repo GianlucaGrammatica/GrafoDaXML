@@ -73,3 +73,52 @@ console.log("NumeroNodi:", nodeElements.length, edgeElements);
 
 grafo.PrintMatrix();
 
+drawGraph([], grafo.BaseMatrix);
+
+// Draw the graph
+function drawGraph(parents, adjacencyMatrix) {
+  // Draw edges
+  console.log("Called Draw Graph", adjacencyMatrix);
+  for (let i = 0; i < adjacencyMatrix.length; i++) {
+      for (let j = 0; j < adjacencyMatrix.length; j++) {
+          if (adjacencyMatrix[i][j] > 0) {
+              
+              ctx.beginPath();
+              ctx.moveTo(nodeElements[i].positionX, nodeElements[i].positionY);
+              console.log(nodeElements[i], nodeElements[i].positionX)
+              ctx.lineTo(nodeElements[j].positionX, nodeElements[j].positionY);
+              ctx.lineWidth = 5;
+              ctx.strokeStyle = 'black';
+              if(parents[i] == j){
+                  ctx.lineWidth = 10;
+                  ctx.strokeStyle = 'green';
+              }
+              ctx.stroke();
+
+              // Draw weights
+              ctx.lineWidth = 5;
+              const midX = (nodeElements[i].positionX + nodeElements[j].positionX) / 2;
+              const midY = (nodeElements[i].positionY + nodeElements[j].positionY) / 2;
+              ctx.fillStyle = 'black';
+              ctx.font = "20px Arial";
+              ctx.fillText(adjacencyMatrix[i][j], midX, midY);
+          }
+      }
+  }
+
+  // Draw nodes
+  for (let i = 0; i < nodeElements.length; i++) {
+      if(nodeElements[i] === undefined) continue;
+
+      ctx.beginPath();
+      ctx.arc(nodeElements[i].positionX, nodeElements[i].positionY, 20, 0, 2 * Math.PI);
+      ctx.fillStyle = 'white';
+          
+      ctx.fill();
+      ctx.strokeStyle = 'black';
+      ctx.stroke();
+      ctx.fillStyle = 'black';
+
+      ctx.fillText(nodeElements[i].mainText, nodeElements[i].positionX - 5, nodeElements[i].positionY + 5);
+  }
+}
